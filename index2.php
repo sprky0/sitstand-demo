@@ -7,14 +7,18 @@
 
 var currentSlice = 0;
 var data = [];
+var colorPointer = 0;
 var colors = [
-	['#007700','#00aa00'],
-	['#007700','#00aa00'],
-	['#000077','#0000aa']
+	['#FFA69E','#FF776B'],
+	['#FAF3DD','#F9E8A9'],
+	['#B8F2E6','#87F2DC'],
+	['#AED9E0','#82D3E0'],
+	['#5E726F','#47726C']
 ];
+var started = new Date().getTime();
 
 function addSlice(duration,label) {
-	var color = colors.pop();
+	var color = colors[colorPointer % colors.length];
 	data.push({
 		duration : duration,
 		label : label,
@@ -24,6 +28,7 @@ function addSlice(duration,label) {
 		bgcolor : color[0],
 		color : color[1]
 	});
+	colorPointer++;
 }
 
 function drawSegment(canvas, context, item) {
@@ -80,7 +85,7 @@ function draw() {
 	}
 }
 
-function update() {
+function updateCalculatedValues() {
 	var start = 90;
 	var totalDuration = 0;
 	for(var i = 0; i < data.length; i++) {
@@ -92,6 +97,20 @@ function update() {
 		start += data[i].size;
 		start = start % 360;
 	}
+}
+
+function findCurrentPeriod(offset) {
+	var periodStart = 0;
+	var periodEnd = 0;
+	for(var i = 0; i < data.length; i++) {
+		var periodEnd = periodStart + data[i].duration;
+		if (offset >= periodStart && offset < periodEnd){
+			return i;
+		}
+		periodStart = periodEnd;
+	}
+	// exhausted all options and didn't find it
+	return false;
 }
 
 function interval() {
@@ -110,10 +129,12 @@ function interval() {
 	draw();
 }
 
+addSlice(45,'Sit');
 addSlice(10,'Stand');
-addSlice(100,'Sit');
-update();
-setInterval(interval, 1);
+
+updateCalculatedValues();
+
+setInterval(interval, 1000 / 60);
 
 </script>
 
