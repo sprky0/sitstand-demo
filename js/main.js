@@ -1,8 +1,3 @@
-<html>
-<body>
-
-<canvas id="piechart" width="400" height="400"></canvas>
-<script>
 
 
 var currentSlice = 0;
@@ -75,7 +70,7 @@ function degreesToRadians(degrees) {
 	return (degrees * Math.PI)/180;
 }
 
-canvas = document.getElementById("piechart");
+canvas = document.getElementById("timer");
 var context = canvas.getContext("2d");
 
 function draw() {
@@ -123,9 +118,6 @@ function interval() {
 		}
 	}
 
-	// data[i].start += .1;
-	// data[i].start = data[i].start % 360;
-
 	draw();
 }
 
@@ -135,8 +127,3 @@ addSlice(10,'Stand');
 updateCalculatedValues();
 
 setInterval(interval, 1000 / 60);
-
-</script>
-
-</body>
-</html>
