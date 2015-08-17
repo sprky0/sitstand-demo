@@ -2,7 +2,6 @@
 
 	var currentSlice = 0;
 	var data = [];
-	var colorPointer = 0;
 	var colors = [
 		['#FFA69E','#FF776B'],
 		['#FAF3DD','#F9E8A9'],
@@ -10,6 +9,7 @@
 		['#AED9E0','#82D3E0'],
 		['#5E726F','#47726C']
 	];
+	var colorPointer = Math.floor(colors.length * Math.random());
 	var started = new Date().getTime();
 
 	function getSetting(key) {
@@ -175,7 +175,9 @@
 		draw();
 	}
 
-	addSlice(1,'first');
+	for(var i = 0; i < 3; i++) {
+		addSlice(1,'first');
+	}
 
 	document.getElementById('add_slice').addEventListener('click',function(eve){
 		eve.preventDefault();
