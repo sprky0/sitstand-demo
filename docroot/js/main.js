@@ -13,6 +13,20 @@
 		['#AED9E0','#82D3E0'],
 		['#5E726F','#47726C']
 	];
+	/*
+	for(var i = 0; i < 100; i++) {
+		var r1 = (Math.round(Math.random()* 127) + 127).toString(16);
+		var g1 = (Math.round(Math.random()* 127) + 127).toString(16);
+		var b1 = (Math.round(Math.random()* 127) + 127).toString(16);
+		var r2 = (Math.round(Math.random()* 127) + 127).toString(16);
+		var g2 = (Math.round(Math.random()* 127) + 127).toString(16);
+		var b2 = (Math.round(Math.random()* 127) + 127).toString(16);
+		colors.push([
+			'#' + r1 + g1 + b1,
+			'#' + r2 + g2 + b2
+		]);
+	}
+	*/
 	var colorPointer = Math.floor(colors.length * Math.random());
 	var started = new Date().getTime();
 
