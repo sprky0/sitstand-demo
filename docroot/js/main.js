@@ -1,4 +1,4 @@
-(function(){
+(function(document, window){
 
 	var currentSlice = 0;
 	var data = [];
@@ -12,6 +12,26 @@
 	];
 	var started = new Date().getTime();
 
+	function getSetting(key) {
+		if (window.widget) {
+			return widget.getPreferenceForKey(key);
+		} else if (window.localStorage) {
+			return localStorage.getItem(key);
+		} else {
+			throw 'no storage available';
+		}
+	}
+
+	function setSetting(key,val) {
+		if (window.widget) {
+			return widget.setPreferenceForKey(key,val);
+		} else if (window.localStorage) {
+			return localStorage.setItem(key,val);
+		} else {
+			throw 'no storage available';
+		}
+	}
+
 	function addSlice(duration,label) {
 		var color = colors[colorPointer % colors.length];
 		var now = new Date().getTime();
@@ -24,11 +44,20 @@
 			bgcolor : color[0],
 			color : color[1],
 			started : now,
-			validElapsedTime : 0,
-			// lastReading : now,
 			ended : now
 		});
 		colorPointer++;
+		updateCalculatedValues();
+	}
+
+	function popSlice() {
+		data.pop();
+		updateCalculatedValues();
+	}
+
+	function shiftSlice() {
+		data.shift();
+		updateCalculatedValues();
 	}
 
 	function drawSegment(canvas, context, item) {
@@ -99,6 +128,14 @@
 		}
 	}
 
+	function updateTimeValues() {
+		started = new Date().getTime();
+		for(var i = 0; i < data.length; i++) {
+			data[i].started = started;
+			data[i].ended = started;
+		}
+	}
+
 	function findCurrentPeriod(offset) {
 		var periodStart = 0;
 		var periodEnd = 0;
@@ -138,15 +175,24 @@
 		draw();
 	}
 
-	addSlice(2,'Sit');
-	addSlice(2,'Stand');
-	addSlice(2,'Jangle');
+	addSlice(1,'first');
 
-	updateCalculatedValues();
+	document.getElementById('add_slice').addEventListener('click',function(eve){
+		eve.preventDefault();
+		addSlice(1,(data.length + 1) + ' zone');
+	});
+
+	document.getElementById('remove_slice').addEventListener('click',function(eve){
+		eve.preventDefault();
+		popSlice();
+	});
+
+	// popSlice();
+	// shiftSlice();
 
 	setInterval(interval, 1000 / 60);
 
 	// notes re: widget settungs
 	// http://andrew.hedges.name/widgets/dev/
 
-})(document);
+})(document, window);
