@@ -6,8 +6,14 @@
 <body>
 
 	<canvas id="timer" width="400" height="400"></canvas>
-	<button id="add_slice">add</button>
-	<button id="remove_slice">remove</button>
+
+	<div id="settings">
+		<button id="add_slice">add</button>
+		<button id="remove_slice">remove</button>
+		<button id="reset_settings">reset</button>
+		<button id="load_settings">load</button>
+		<button id="save_settings">save</button>
+	</div>
 
 	<script src="js/main.js"></script>
 
